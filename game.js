@@ -41,9 +41,11 @@ function create(){
     platforms.create(400,700,'sol');//.setScale(2).refreshBody();
     platforms.create(40,250,'sol').setScale(0.25).refreshBody();
     platforms.create(600,250,'sol').setScale(0.25).refreshBody();
+    platforms.create(400,400,'sol').setScale(0.2).refreshBody();
 
     player = this.physics.add.sprite(100,0,'perso')/*.setScale(4).refreshBody()*/;
     player2 = this.physics.add.sprite(200,0,'perso');
+
 
     //-------------------------------------------------------------------------//
     player.setCollideWorldBounds(true);
