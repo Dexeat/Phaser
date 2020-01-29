@@ -7,7 +7,7 @@ var config = {
             default: 'arcade',
             arcade: {
                 gravity: {y: 300},
-                debug: false
+                debug: true
             }
         },
         scene: {
@@ -64,25 +64,57 @@ function create(){
         down:Phaser.Input.Keyboard.KeyCodes.S,
         left:Phaser.Input.Keyboard.KeyCodes.Q,
         right:Phaser.Input.Keyboard.KeyCodes.D});
+
+
+    this.anims.create({
+        key: 'gauche',
+        frames: this.anims.generateFrameNumbers('perso', {start: 0,end: 1}),
+        frameRate:10
+    });
+
+    this.anims.create({
+        key: 'droite',
+        frames: this.anims.generateFrameNumbers('perso', {start: 2,end: 3}),
+        frameRate:10
+    });
+
+    this.anims.create({
+        key: 'gauche2',
+        frames: this.anims.generateFrameNumbers('perso', {start: 16,end: 17}),
+        frameRate:10
+    });
+
+    this.anims.create({
+        key: 'droite2',
+        frames: this.anims.generateFrameNumbers('perso', {start: 18,end: 19}),
+        frameRate:10
+    });
+
 }
 function update(){
     if(cursors.left.isDown){
-        player.setVelocityX(-320);
+        player.setVelocityX(-100);
+        player.anims.play('gauche', true);
     } else if(cursors.right.isDown){
-        player.setVelocityX(320);
+        player.setVelocityX(100);
+        player.anims.play('droite', true);
     } else {
         player.setVelocityX(0);
+        player.anims.play('gauche', true);
     }
     if(cursors.up.isDown/* && player.body.touching.down*/){
         player.setVelocityY(-500);
     }
 
     if(cursors2.left.isDown){
-        player2.setVelocityX(-320);
+        player2.setVelocityX(-100);
+        player2.anims.play('gauche2', true);
     } else if(cursors2.right.isDown){
-        player2.setVelocityX(320);
+        player2.setVelocityX(100);
+        player2.anims.play('droite2', true);
     } else {
         player2.setVelocityX(0);
+        player2.anims.play('droite2', true);
     }
     if(cursors2.up.isDown /*&& player2.body.touching.down*/){
         player2.setVelocityY(-500);
