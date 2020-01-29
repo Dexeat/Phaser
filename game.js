@@ -54,6 +54,7 @@ function create(){
     this.physics.add.collider(player2,platforms);
 
     player.setBounce(0.25);
+    player2.setBounce(0.25);
     cursors = this.input.keyboard.createCursorKeys();
 
     this.anims.create({
