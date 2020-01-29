@@ -7,7 +7,7 @@ var config = {
             default: 'arcade',
             arcade: {
                 gravity: {y: 300},
-                debug: false
+                debug: true
             }
         },
         scene: {
@@ -24,6 +24,7 @@ var game = new Phaser.Game(config);
 function init(){
     var platforms;
     var player;
+    var player2;
     var cursors;
 }
 
@@ -31,7 +32,7 @@ function preload(){
     this.load.image('background','assets/fond.png');
     this.load.image('sol','assets/sol.png');
     this.load.spritesheet('perso','assets/32x32-bat-sprite.png',{frameWidth: 32, frameHeight: 32});
-    this.load.spritesheet('piece','assets/piece.png',{frameWidth: 16, frameHeight: 16});
+
 }
 function create(){
     this.add.image(400,300,'background');
@@ -43,9 +44,15 @@ function create(){
     platforms.create(400,400,'sol').setScale(0.2).refreshBody();
 
     player = this.physics.add.sprite(100,0,'perso');
+    player2 = this.physics.add.sprite(100,0,'perso');
 
     player.setCollideWorldBounds(true);
+    player2.setCollideWorldBounds(true);
+
     this.physics.add.collider(player,platforms);
+    this.physics.add.collider(player,player2);
+    this.physics.add.collider(player2,platforms);
+
     player.setBounce(0.25);
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -73,49 +80,24 @@ function create(){
         frameRate:20
     });
 
-    piece = this.add.group();
 
-    //  Now let's add 50 coins into it
-    for (var i = 0; i < 50; i++)
-    {
-        piece.create(this.world.randomX, this.world.randomY, 'piece', 0);
+ 
+    cursors2 = this.cursors = this.input.keyboard.addKeys(
+        {up:Phaser.Input.Keyboard.KeyCodes.Z,
+        down:Phaser.Input.Keyboard.KeyCodes.S,
+        left:Phaser.Input.Keyboard.KeyCodes.Q,
+        right:Phaser.Input.Keyboard.KeyCodes.D});
     }
 
-
-    this.physics.add.collider(piece,platforms);
-    this.physics.add.overlap(player,piece,collectPiece,null,this);
-
-
-    //  Now using the power of callAll we can add the same animation to all coins in the group:
-    piece.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3], 10, true);
-
-    //  And play them
-    coins.callAll('animations.play', 'animations', 'spin');
-
-
-
-    cursors2 = this.cursors = this.input.keyboard.addKeys(
-        {up:Phaser.Input.Keyboard.KeyCodes.Z,
-        down:Phaser.Input.Keyboard.KeyCodes.S,
-        left:Phaser.Input.Keyboard.KeyCodes.Q,
-        right:Phaser.Input.Keyboard.KeyCodes.D});
-}
-
-function collectPiece(player, piece){
-    piece.disableBody(true,true);
-    cursors2 = this.cursors = this.input.keyboard.addKeys(
-        {up:Phaser.Input.Keyboard.KeyCodes.Z,
-        down:Phaser.Input.Keyboard.KeyCodes.S,
-        left:Phaser.Input.Keyboard.KeyCodes.Q,
-        right:Phaser.Input.Keyboard.KeyCodes.D});
-}
 
 function update(){
 
 
     if(cursors.left.isDown){
         player.setVelocityX(-320);
+        player.anims.play('gauche', true);
     } else if(cursors.right.isDown){
+        player.anims.play('droite', true);
         player.setVelocityX(320);
     } else {
         player.setVelocityX(0);
@@ -128,10 +110,14 @@ function update(){
 
     if(cursors2.left.isDown){
         player2.setVelocityX(-320);
+        player2.anims.play('gauche', true);
     } else if(cursors2.right.isDown){
         player2.setVelocityX(320);
+        player2.anims.play('droite', true);
     } else {
         player2.setVelocityX(0);
+        if(!player2.body.touching.down){player2.anims.play('fall', true);}
+        else{player2.anims.play('idle', true);}
     }
     if(cursors2.up.isDown /*&& player2.body.touching.down*/){
         player2.setVelocityY(-500);
