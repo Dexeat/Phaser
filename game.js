@@ -7,7 +7,7 @@ var config = {
             default: 'arcade',
             arcade: {
                 gravity: {y: 300},
-                debug: true
+                debug: false
             }
         },
         scene: {
@@ -48,6 +48,7 @@ function create(){
     this.physics.add.collider(player,platforms);
     player.setBounce(0.25);
     cursors = this.input.keyboard.createCursorKeys();
+<<<<<<< HEAD
 
     this.anims.create({
         key: 'gauche',
@@ -97,23 +98,46 @@ function create(){
 
 function collectPiece(player, piece){
     piece.disableBody(true,true);
+=======
+    cursors2 = this.cursors = this.input.keyboard.addKeys(
+        {up:Phaser.Input.Keyboard.KeyCodes.Z,
+        down:Phaser.Input.Keyboard.KeyCodes.S,
+        left:Phaser.Input.Keyboard.KeyCodes.Q,
+        right:Phaser.Input.Keyboard.KeyCodes.D});
+>>>>>>> parent of c590da5... Update game.js
 }
 
 function update(){
 
 
     if(cursors.left.isDown){
-        player.setVelocityX(-100);
-        player.anims.play('gauche', true);
+        player.setVelocityX(-320);
     } else if(cursors.right.isDown){
-        player.setVelocityX(100);
-        player.anims.play('droite', true);
+        player.setVelocityX(320);
     } else {
         player.setVelocityX(0);
+<<<<<<< HEAD
         if(!player.body.touching.down){player.anims.play('fall', true);}
         else{player.anims.play('idle', true);}
+=======
+>>>>>>> parent of c590da5... Update game.js
     }
     if(cursors.up.isDown/* && player.body.touching.down*/){
         player.setVelocityY(-500);
     }
+<<<<<<< HEAD
+=======
+
+    if(cursors2.left.isDown){
+        player2.setVelocityX(-320);
+    } else if(cursors2.right.isDown){
+        player2.setVelocityX(320);
+    } else {
+        player2.setVelocityX(0);
+    }
+    if(cursors2.up.isDown /*&& player2.body.touching.down*/){
+        player2.setVelocityY(-500);
+    }
+
+>>>>>>> parent of c590da5... Update game.js
 }
